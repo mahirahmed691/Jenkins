@@ -14,6 +14,7 @@ pipeline {
         stage ("init"){
             steps{
                 script {
+                    sh "whoami"
                     groovy = load "script.groovy"
                 }
             }
