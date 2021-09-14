@@ -1,3 +1,6 @@
+
+def groovy 
+
 pipeline {
     agent any 
     
@@ -7,9 +10,20 @@ pipeline {
     }
     
     stages{
+
+        stage ("init"){
+            steps{
+                script{
+                    groovy = load "script.groovy"
+                }
+            }
+        }
+
         stage ("build"){
             steps{
-                echo("Building the application...")
+                script{
+                    groovy.buildApp()
+                }
             }
         }
         stage ("test"){
@@ -19,13 +33,14 @@ pipeline {
                 }
             }
             steps{
-                 echo("Testing the application...")
+                 script{
+                     groovy.testApp()
+                 }
             }
         }
         stage ("deploy"){
             steps{
-                 echo("Deploying the application...")
-                 echo ("Deploying version {$params.VERSION}")
+                groovy.deploy()
             }
         }
     }
