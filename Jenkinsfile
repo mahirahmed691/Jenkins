@@ -26,12 +26,7 @@ pipeline {
                 }
             }
         }
-        stage ("test"){
-            when{
-                expression {
-                    params.executeTests
-                }
-            }
+        stage ("test"){           
             steps{
                  script{
                      groovy.testApp()
