@@ -35,7 +35,10 @@ pipeline {
         }
         stage ("deploy"){
             steps{
-                groovy.deployApp()
+                script{
+                    groovy.deployApp()
+                }
+                
             }
         }
     }
