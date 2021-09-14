@@ -15,6 +15,7 @@ pipeline {
             steps{
                 script {
                     sh "whoami"
+                    echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
                     groovy = load "script.groovy"
                 }
             }
