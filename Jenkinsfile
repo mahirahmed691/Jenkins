@@ -40,7 +40,7 @@ pipeline {
         }
         stage ("deploy"){
             steps{
-                groovy.deploy()
+                groovy.deployApp()
             }
         }
     }
