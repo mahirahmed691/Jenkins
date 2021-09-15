@@ -2,9 +2,7 @@
 def groovy 
 
 pipeline {
-    agent {
-        docker { image 'node:14-alpine' }
-    }
+    agent none
     
     parameters{
         choice(name: 'VERSION', choices:['1.1.0', '1.2.0', '1.3.0'], description: '')
@@ -15,6 +13,12 @@ pipeline {
 
         stage ("init"){
             steps{
+                agent {
+                    docker {
+                    image 'node:7-alpine'
+                    args '--name docker-node' // list any args
+                    }
+                }
                 script {
                     sh "whoami"
                     sh 'node --version'
