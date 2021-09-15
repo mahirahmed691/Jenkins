@@ -17,7 +17,7 @@ pipeline {
             steps{
                 script {
                     sh "whoami"
-                    sh 'gradle --version'
+                    sh 'node --version'
                     echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
                     groovy = load "script.groovy"
                 }
@@ -31,6 +31,7 @@ pipeline {
                 }
             }
         }
+
         stage ("test"){           
             steps{
                  script{
@@ -38,6 +39,7 @@ pipeline {
                  }
             }
         }
+
         stage ("deploy"){
             steps{
                 script {
