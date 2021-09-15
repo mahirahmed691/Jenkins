@@ -1,23 +1,49 @@
-#!groovy
+
+def groovy 
 
 pipeline {
-  agent none
-  stages {
-    stage('Maven Install') {
-      agent {
-        docker {
-          image 'maven:3.5.0'
+    agent any
+    
+    parameters{
+        choice(name: 'VERSION', choices:['1.1.0', '1.2.0', '1.3.0'], description: '')
+        booleanParam(name: 'executeTests', defaultValue: true, description: '' )
+    }
+    
+    stages{
+
+        stage ("init"){
+            steps{
+                script {
+                    sh "whoami"
+                    echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                    groovy = load "script.groovy"
+                }
+            }
         }
-      }
-      steps {
-        sh 'mvn clean install'
-      }
+
+        stage ("build"){
+            steps{
+                script {
+                    groovy.buildApp()
+                }
+            }
+        }
+
+        stage ("test"){           
+            steps{
+                 script{
+                     groovy.testApp()
+                 }
+            }
+        }
+
+        stage ("deploy"){
+            steps{
+                script {
+                    groovy.deployApp()
+                }
+                
+            }
+        }
     }
-    stage('Docker Build') {
-      agent any
-      steps {
-        sh 'docker build -t shanem/spring-petclinic:latest .'
-      }
-    }
-  }
 }
