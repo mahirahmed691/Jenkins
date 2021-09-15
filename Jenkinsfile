@@ -3,7 +3,11 @@ def groovy
 
 pipeline {
     agent {
-         label 'docker' 
+        docker{
+            label 'docker' 
+            image ''
+            args ''
+        }
     } 
     
     parameters{
