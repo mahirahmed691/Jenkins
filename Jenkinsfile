@@ -2,12 +2,7 @@
 def groovy 
 
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v $HOME/.m2:/root/.m2'
-        }
-    } 
+    agent any
     
     parameters{
         choice(name: 'VERSION', choices:['1.1.0', '1.2.0', '1.3.0'], description: '')
@@ -17,6 +12,8 @@ pipeline {
     stages{
 
         stage ("init"){
+            def dockerHome = tool 'myDocker'
+            env.PATH = "${dockerHome}/bin:${env.PATH}"
             steps{
                 script {
                     sh "whoami"
