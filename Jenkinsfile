@@ -3,10 +3,9 @@ def groovy
 
 pipeline {
     agent {
-        docker{
-            label 'docker' 
-            image ''
-            args ''
+        docker {
+            image 'maven:3-alpine'
+            args '-v $HOME/.m2:/root/.m2'
         }
     } 
     
@@ -19,16 +18,9 @@ pipeline {
 
         stage ("init"){
             steps{
-                agent {
-                    docker {
-                        label 'docker'
-                        image 'node:16-alpine3.11'
-                        args '--name docker-node' // list any args
-                    }
-                }
                 script {
                     sh "whoami"
-                    sh 'node --version'
+                    sh 'mvn -B'
                     echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
                     groovy = load "script.groovy"
                 }
