@@ -2,7 +2,9 @@
 def groovy 
 
 pipeline {
-    agent any 
+    agent {
+        docker { image 'node:14-alpine' }
+    }
     
     parameters{
         choice(name: 'VERSION', choices:['1.1.0', '1.2.0', '1.3.0'], description: '')
@@ -12,13 +14,6 @@ pipeline {
     stages{
 
         stage ("init"){
-             agent{
-                     docker {
-                            image 'gradle:6.7-jdk11'
-                            // Run the container on the node specified at the top-level of the Pipeline, in the same workspace, rather than on a new node entirely:
-                             reuseNode true
-                        }
-                }
             steps{
                 script {
                     sh "whoami"
